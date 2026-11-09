@@ -2,7 +2,10 @@
   <img src="docs/app_icon.png" alt="DroidBridge app icon" width="128" height="128">
 </p>
 
-<h1 align="center">DroidBridge Launcher</h1>
+<h1 align="center">DroidBridge Launcher — OFFLINE bridge fork</h1>
+
+<blockquote align="center"><b>This fork:</b> offline accounts are available immediately in Account settings &mdash; you do <b>not</b> need to sign in with a Microsoft account first. Microsoft sign-in stays optional (skins / online servers). Based on the latest OFFLINE-FORK commit e30fc36 (Oct 22, 2026).</blockquote>
+
 
 <p align="center">
   An independent Android launcher framework for users who own Minecraft: Java Edition and want to run Java Edition on Android devices.

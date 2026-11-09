@@ -289,11 +289,11 @@ public final class LauncherSettingsActivity extends AppCompatActivity {
             updateAccountStatus(account);
             updateSkinUi(account);
         } catch (Throwable throwable) {
-            Logging.e("LauncherSettings", "Microsoft account UI initialization failed", throwable);
-            binding.textAccountStatus.setText(R.string.status_signed_out);
+            Logging.e("LauncherSettings", "Account UI initialization failed", throwable);
+            binding.textAccountStatus.setText(R.string.status_signed_out_offline_unlocked);
             binding.buttonSignIn.setEnabled(false);
             binding.buttonSignOut.setEnabled(false);
-            binding.buttonManageOfflineAccounts.setEnabled(false);
+            binding.buttonManageOfflineAccounts.setEnabled(accountStore != null);
             binding.buttonUseMicrosoftAccount.setEnabled(false);
             binding.buttonRefreshMicrosoftSkin.setEnabled(false);
         }
@@ -397,7 +397,7 @@ public final class LauncherSettingsActivity extends AppCompatActivity {
     }
 
     private void updateSkinUi(@Nullable AccountStore.Account account) {
-        boolean offlineUnlocked = accountStore != null && accountStore.hasMicrosoftLoginCompletedOnce();
+        boolean offlineUnlocked = accountStore != null;
         boolean activeOfflineSkin = account != null && account.isOfflineAccount() && account.hasOfflineSkin();
         boolean microsoftSkin = account != null && account.isMicrosoftAccount() && !isNullOrBlank(account.skinUrl);
         boolean rememberedMicrosoft = accountStore != null && accountStore.hasStoredMicrosoftAccount();
@@ -1599,7 +1599,7 @@ public final class LauncherSettingsActivity extends AppCompatActivity {
 
     private void updateAccountStatus(@Nullable AccountStore.Account account) {
         boolean hasRememberedMicrosoft = accountStore != null && accountStore.hasStoredMicrosoftAccount();
-        boolean offlineUnlocked = accountStore != null && accountStore.hasMicrosoftLoginCompletedOnce();
+        boolean offlineUnlocked = accountStore != null;
         boolean activeOffline = account != null && account.isOfflineAccount();
         boolean activeMicrosoft = account != null && account.isMicrosoftAccount();
 
@@ -1652,12 +1652,7 @@ public final class LauncherSettingsActivity extends AppCompatActivity {
     }
 
     private void showOfflineAccountsDialog() {
-        if (accountStore == null || !accountStore.hasMicrosoftLoginCompletedOnce()) {
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.offline_locked_title)
-                    .setMessage(R.string.offline_locked_message)
-                    .setPositiveButton(android.R.string.ok, null)
-                    .show();
+        if (accountStore == null) {
             return;
         }
 
